@@ -1,19 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-mode="disguise">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="LADECA PROJECT is a dark cinematic archive interface for lore, projects, art, coordinates, news, and restricted Sentinel authorization."
-  />
-  <meta property="og:title" content="PROJECT: LADECA" />
-  <meta
-    property="og:description"
-    content="Showcasing the largest Archive in the world through a confidential lunar cyber research interface."
-  />
-  <meta property="og:type" content="website" />
-  <title>PROJECT: LADECA | Archive Home</title>
+  <meta name="description" content="Daily Civic Register — regional reports, public forums, and notices." />
+  <title>Daily Civic Register</title>
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link
     href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600,700&display=swap"
@@ -21,246 +12,672 @@
   />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="ladeca-home intro-active">
-  <a class="skip-link" href="#ladecaArchive">Skip to archive content</a>
+<body id="APP" class="app pre-uplink" data-route="P1">
+  <a class="skip-link" href="#APP-MAIN">Skip to main content</a>
 
-  <audio id="audioFailure" src="FAILURE.mp3" preload="auto"></audio>
-  <audio id="audioPopupClose" src="CLOSE_POP-UP.mp3" preload="auto"></audio>
-  <audio id="audioPopupClose2" src="CLOSE_POP-UP_PLACEHOLDER2.mp3" preload="auto"></audio>
-  <audio id="audioVoice1" src="PLACEHOLDER_VOICE1.mp3" preload="auto"></audio>
-  <audio id="audioVoice2" src="PLACEHOLDER_VOICE2.mp3" preload="auto"></audio>
-  <audio id="audioHum" src="HUM.mp3" preload="auto" loop></audio>
-  <audio id="audioInitializing" src="INITIALIZING.mp3" preload="auto"></audio>
-  <audio id="audioShipHum" src="SHIPHUM.mp3" preload="auto" loop></audio>
-  <audio id="audioFailed" src="FAILED.mp3" preload="auto"></audio>
-  <audio id="audioUnauthorized" src="UNAUTHORIZED.mp3" preload="auto"></audio>
-
-  <header class="top-nav" id="topNav" aria-label="Primary LADECA navigation">
-    <div class="top-nav-inner">
-      <button class="top-nav-btn" data-target="ladecaPanel" type="button">LADECA</button>
-      <button class="top-nav-btn" id="authorizeBtn" type="button">AUTHORIZE</button>
-      <button class="top-nav-btn" data-target="artPanel" type="button">ART</button>
-      <button class="top-nav-btn" data-target="newsPanel" type="button">NEWS</button>
-      <button class="top-nav-btn" data-target="coordinatesPanel" type="button">SIGNAL</button>
-      <button class="top-nav-btn" data-target="legalPanel" type="button">ABOUT</button>
-      <button
-        class="sentinel-input-btn"
-        id="sentinelBtn"
-        type="button"
-        aria-label="Open Sentinel authorization sequence"
-      >
-        <span class="sentinel-label">SENTINEL:OU:STILLPOINT</span>
-        <span class="caret" aria-hidden="true"></span>
+  <!-- ============================================================
+       TOP NAV — switches between PUBLIC (disguise) and HUB (agent)
+       ============================================================ -->
+  <header id="NAV-PUBLIC" class="top-nav public-nav" aria-label="Public routes">
+    <div class="top-nav__inner">
+      <div class="brand-tag">
+        <span class="brand-glyph" aria-hidden="true">☾</span>
+        <span class="brand-text">DAILY CIVIC REGISTER</span>
+      </div>
+      <nav class="route-row" aria-label="Public pages">
+        <button class="route-btn active" type="button" data-route="P1">HOME</button>
+        <button class="route-btn" type="button" data-route="P2">FORUMS</button>
+        <button class="route-btn" type="button" data-route="P3">NEWS</button>
+        <button class="route-btn" type="button" data-route="P4">ART</button>
+        <button class="route-btn route-btn--danger" type="button" data-route="P5">HELP</button>
+      </nav>
+      <button id="BTN-LOCKIN-TOP" class="lockin-btn" type="button" data-route="P6">
+        <span class="lockin-btn__dot" aria-hidden="true"></span>
+        SENTINEL LOCK-IN
       </button>
     </div>
   </header>
 
-  <aside class="left-nav" id="leftNav" aria-label="Restricted LADECA access rail">
-    <button class="left-nav-toggle" id="leftNavToggle" type="button" aria-label="Toggle restricted navigation">
-      <span class="arrow" aria-hidden="true">&lsaquo;</span>
+  <header id="NAV-HUB" class="top-nav hub-nav hidden" aria-label="Classified routes">
+    <div class="top-nav__inner">
+      <div class="brand-tag brand-tag--hub">
+        <span class="brand-glyph" aria-hidden="true">◉</span>
+        <span class="brand-text">SOLMNEX // HUB ACTIVE</span>
+      </div>
+      <nav class="route-row" aria-label="Classified routes">
+        <button class="route-btn route-btn--sentinel active" type="button" data-route="P7">HUB</button>
+        <button class="route-btn route-btn--sentinel" type="button" data-open="authorize">AUTHORIZE</button>
+        <button class="route-btn" type="button" data-open="ladeca">LADECA</button>
+        <button class="route-btn" type="button" data-open="solmnex">SOLMNEX</button>
+        <button class="route-btn" type="button" data-open="lattice">LATTICE</button>
+        <button class="route-btn" type="button" data-open="helix">HELIX</button>
+        <button class="route-btn" type="button" data-open="research">RESEARCH</button>
+        <button class="route-btn" type="button" data-open="projects">PROJECTS</button>
+      </nav>
+      <button id="BTN-LOCKOUT" class="lockin-btn lockin-btn--out" type="button">
+        <span class="lockin-btn__dot lockin-btn__dot--red" aria-hidden="true"></span>
+        DISENGAGE
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       SIDE NAV — retractable, same on both layers
+       ============================================================ -->
+  <aside id="SIDENAV" class="side-nav collapsed" aria-label="Locked route map">
+    <button id="BTN-SIDENAV-OPEN" class="side-nav__opener" type="button" aria-expanded="false" aria-controls="SIDENAV-PANEL">
+      <span class="side-nav__chevron" aria-hidden="true">›</span>
+      <span class="side-nav__label">LOCKED MAP</span>
     </button>
-    <nav class="left-nav-buttons" aria-label="Unauthorized access nodes">
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-      <button class="left-nav-btn unauthorized-btn" type="button">UNAUTHORIZED</button>
-    </nav>
+    <div id="SIDENAV-PANEL" class="side-nav__panel">
+      <div class="side-nav__heading">CLASSIFIED INDEX</div>
+      <button class="side-nav__sentinel" type="button" data-route="P6">SENTINEL LOCK-IN</button>
+      <div class="side-nav__divider"></div>
+      <button class="side-nav__locked" data-open="hub"      type="button">HUB</button>
+      <button class="side-nav__locked" data-open="authorize"type="button">AUTHORIZE</button>
+      <button class="side-nav__locked" data-open="ladeca"   type="button">LADECA</button>
+      <button class="side-nav__locked" data-open="solmnex"  type="button">SOLMNEX</button>
+      <button class="side-nav__locked" data-open="sss"      type="button">SSS</button>
+      <button class="side-nav__locked" data-open="hax"      type="button">HAX</button>
+      <button class="side-nav__locked" data-open="lattice"  type="button">LATTICE</button>
+      <button class="side-nav__locked" data-open="helix"    type="button">HELIX</button>
+      <button class="side-nav__locked" data-open="research" type="button">RESEARCH</button>
+      <button class="side-nav__locked" data-open="council"  type="button">COUNCIL</button>
+      <button class="side-nav__locked" data-open="projects" type="button">PROJECTS</button>
+    </div>
   </aside>
 
-  <div id="miniPopup" class="mini-popup" role="status" aria-live="polite">
-    <div class="mini-popup-content crt">UNAUTHORIZED</div>
+  <!-- ============================================================
+       UNAUTHORIZED TOAST — pointer-anchored
+       ============================================================ -->
+  <div id="FX-UNAUTH-TOAST" class="unauth-toast" role="status" aria-live="polite">
+    <span>UNAUTHORIZED</span>
   </div>
 
-  <div id="globalLoading" class="global-loading hidden" aria-hidden="true">
-    <div class="global-loading-inner">
-      <div class="loading-ring" aria-hidden="true"></div>
-      <div class="loading-text">Establishing Uplink . . .</div>
-    </div>
-  </div>
+  <!-- ============================================================
+       MAIN — DISGUISE LAYER (public news pages)
+       ============================================================ -->
+  <main id="APP-MAIN" class="main-shell">
 
-  <div id="idleOverlay" class="idle-overlay hidden" aria-hidden="true">
-    <div class="idle-overlay-inner">
-      <div class="idle-spinner" aria-hidden="true"></div>
-      <div class="idle-text">COOL_TRANSPARENT_LOADING_IDLE_ANIM</div>
-    </div>
-  </div>
-
-  <div id="sentinelModal" class="sentinel-modal hidden" role="dialog" aria-modal="true" aria-labelledby="sentinelTitle">
-    <div class="sentinel-modal-inner">
-      <div class="modal-chrome" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
+    <!-- P1 // HOME — LANDING / VIDEO DEMO -->
+    <section id="P1" class="page active" data-page="HOME" aria-labelledby="P1-H1">
+      <div class="masthead terminal-card">
+        <p class="page-code">P1 // HOME // PUBLIC CIVIC SHELL</p>
+        <h1 id="P1-H1">Daily Civic Register</h1>
+        <p class="lede">Plain reports, regional activity, weather continuity, and notices from adjacent years.</p>
       </div>
-      <p class="modal-kicker" id="sentinelKicker">NONCLOSING_POP-UP</p>
-      <h2 id="sentinelTitle">SENTINEL</h2>
-      <p id="sentinelPrompt"></p>
-      <label class="sr-only" for="sentinelInput" id="sentinelInputLabel">Sentinel response</label>
-      <div class="sentinel-input-row">
-        <input id="sentinelInput" type="text" autocomplete="off" spellcheck="false" />
-        <button id="sentinelSubmit" type="button">ENTER</button>
-      </div>
-      <div id="sentinelLog" class="sentinel-log" aria-live="polite"></div>
-    </div>
-  </div>
-
-  <main class="main-content" id="mainContent">
-    <section class="video-section" id="home" aria-label="LADECA_HOME">
-      <div class="video-fallback" aria-hidden="true"></div>
-      <video
-        class="bg-video"
-        id="bgVideo"
-        src="PLACEHOLDER.mp4"
-        autoplay
-        muted
-        loop
-        playsinline
-      ></video>
-      <div class="video-vignette" aria-hidden="true"></div>
-      <div class="scanline-layer" aria-hidden="true"></div>
-      <div class="home-status-card" aria-label="LADECA home status">
-        <span>LADECA_HOME</span>
-        <span>ARCHIVE NODE: AWAKE</span>
-        <span>CTC WATCH: STABLE</span>
-      </div>
-      <h1 class="video-overlay-title">PROJECT: LADECA</h1>
-      <p class="video-subtitle">
-        Largest Archive in the world. Restricted lunar research interface. Sentinel uplink dormant.
-      </p>
-    </section>
-
-    <section class="archive-section" id="ladecaArchive" aria-labelledby="archiveTitle">
-      <div class="archive-header">
-        <div>
-          <p class="eyebrow">CLEARANCE LAYER // PUBLIC ARCHIVE</p>
-          <h2 id="archiveTitle">LADECA PROJECT Archive</h2>
-        </div>
-        <div class="archive-meter" aria-label="Archive capacity">
-          <span>1920 × 2160 PILOT FRAME</span>
-          <strong>2 SCREEN HOLD</strong>
-        </div>
-      </div>
-
-      <div class="archive-grid">
-        <article class="archive-card wide" id="ladecaPanel">
-          <p class="card-label">PAGE // LADECA</p>
-          <h3>Created in 2060, LADECA is one of the pillar stones of Human Ingenuity.</h3>
-          <p>
-            MISSION: Superposition Operatives from 2060-2090 into Earth and prevent a Cascading Timeline Collapse.
-          </p>
-          <div class="data-list">
-            <span>OPERATIVES: Oxl, Palala, Meryl, Shai, Kai, SOLMNEX, AURORA, LADECA, Willow</span>
-            <span>LOCATIONS: Dine, Earth, Ladeca, Taured</span>
-            <span>FORUMS: Research, Art, News, Meetups</span>
-          </div>
-        </article>
-
-        <article class="archive-card" id="projectsPanel">
-          <p class="card-label">PAGE // PROJECTS</p>
-          <h3>Commercial LADECA for All.</h3>
-          <p>PROJECT LADECA posted by Palala. PRJCT. SAVE SYSTEM SOLMNEX posted by Willow.</p>
-          <div class="progress-stack">
+      <div class="home-grid">
+        <article class="terminal-card live-feed">
+          <div class="panel-head">
             <div>
-              <span>LADECA</span>
-              <div class="progress-bar"><i style="width: 34%"></i></div>
-              <strong>34%</strong>
+              <p class="page-code">VID-1-LIVE-FEED</p>
+              <h2>LIVE FEED</h2>
             </div>
-            <div>
-              <span>SSS</span>
-              <div class="progress-bar"><i style="width: 88%"></i></div>
-              <strong>88%</strong>
+            <button id="BTN-RELOAD-FEED" class="small-btn" type="button">Reload Feed</button>
+          </div>
+          <div class="feed-screen">
+            <video id="VID-LIVE" autoplay muted loop playsinline poster=""></video>
+            <div class="feed-fallback" aria-hidden="true">
+              <div class="feed-fallback__sweep"></div>
+              <div class="feed-fallback__crosshair"></div>
+              <div class="feed-fallback__caption">
+                <span>CIVIC FEED · LIVE</span>
+                <span id="FEED-TIMESTAMP">--:--:-- UTC</span>
+              </div>
+            </div>
+            <div id="FX-UPLINK" class="uplink-overlay" aria-hidden="true">
+              <span>×</span>
+              UPLINK TERMINATED
             </div>
           </div>
         </article>
 
-        <article class="archive-card" id="artPanel">
-          <p class="card-label">PAGE // ART</p>
-          <h3>Illustrations, Standing Pieces, Chronicles.</h3>
-          <p>Creator-facing gallery structure with Additional Art and Backroom Access Art marked LOGIN REQUIRED.</p>
-          <button class="ghost-action unauthorized-btn" type="button">COLLABORATE</button>
-        </article>
-
-        <article class="archive-card tall" id="coordinatesPanel">
-          <p class="card-label">PAGE // COORDINATES</p>
-          <h3>ALPHA00 - ZETA99</h3>
-          <p>SUBSTRATE: Physical (Lowest Resolution), Resolution (1.397x10^316), Physical (Highest Resolution).</p>
-          <div class="coordinate-stack">
-            <span>UNIVERSE: ALPHA00-ZETA99</span>
-            <span>MILKY WAY</span>
-            <span>EARTH / MARS / TITAN / STILLPOINT</span>
-            <span>NAME DISCLOSURE: CTC WARNING</span>
+        <aside class="terminal-card forum-preview">
+          <div class="panel-head">
+            <div>
+              <p class="page-code">TL-P1-3 // PUBLIC REACTIONS</p>
+              <h2>[LIVE FEED]</h2>
+            </div>
+            <button id="BTN-RELOAD-FORUM" class="small-btn" type="button">Reload</button>
           </div>
-        </article>
+          <div class="score-grid">
+            <span>Signal <strong id="HUD-SIGNAL">0</strong></span>
+            <span>Threads <strong id="HUD-THREADS">18</strong></span>
+            <span>Alerts <strong id="HUD-ALERTS">4</strong></span>
+          </div>
+          <ol id="FORUM-CHAT" class="chat-log"></ol>
+          <form id="FORM-FAKE-CHAT" class="inline-form">
+            <label class="sr-only" for="INPUT-FAKE-CHAT">Forum message</label>
+            <input id="INPUT-FAKE-CHAT" type="text" placeholder="Type a reply..." autocomplete="off" />
+            <button class="small-btn" type="submit">Send</button>
+          </form>
+        </aside>
 
-        <article class="archive-card" id="newsPanel">
-          <p class="card-label">PAGE // NEWS</p>
-          <h3>Recent CTC News</h3>
-          <p>Public updates, research news, and announcements. Heightened Access News and Confidential News remain locked.</p>
-          <div class="ticker-preview">TODAY // Branch noise low. Stillpoint vectors awaiting user confirmation.</div>
-        </article>
+        <section class="terminal-card compact-grid">
+          <h2 class="compact-grid__title">Public Decoys</h2>
+          <button class="route-card" type="button" data-route="P3">
+            <span class="route-card__tag">P3</span>
+            <strong>Future News</strong>
+            <span class="route-card__desc">Headlines from adjacent years.</span>
+          </button>
+          <button class="route-card" type="button" data-route="P4">
+            <span class="route-card__tag">P4</span>
+            <strong>Art Evidence</strong>
+            <span class="route-card__desc">Visual chronicles and standing pieces.</span>
+          </button>
+          <button class="route-card" type="button" data-route="P5">
+            <span class="route-card__tag">P5</span>
+            <strong>Help Protocol</strong>
+            <span class="route-card__desc">For the misplaced visitor.</span>
+          </button>
+          <button class="route-card locked-route" type="button" data-open="hub">
+            <span class="route-card__tag">P7</span>
+            <strong>HUB</strong>
+            <span class="route-card__desc">UNAUTHORIZED</span>
+          </button>
+        </section>
+      </div>
+    </section>
 
-        <article class="archive-card" id="legalPanel">
-          <p class="card-label">PAGE // LEGAL</p>
-          <h3>Disclosure, Agreement, Willow, Liability, Contact.</h3>
-          <p>FAQ and legal notices are staged as public archive content with restricted operational overlays.</p>
+    <!-- P2 // FORUMS -->
+    <section id="P2" class="page" data-page="FORUMS" aria-labelledby="P2-H1">
+      <div class="page-title terminal-card">
+        <p class="page-code">P2 // FORUMS // PUBLIC</p>
+        <h1 id="P2-H1">Free Chat Forums</h1>
+        <p class="lede">Public conversation layer. Local interaction score for now.</p>
+      </div>
+      <div class="terminal-grid three">
+        <article class="terminal-card">
+          <h2>Today</h2>
+          <p>What are zips unzipping about right now?</p>
+          <button class="small-btn forum-action" type="button">Read Channel</button>
+        </article>
+        <article class="terminal-card">
+          <h2>Recent</h2>
+          <p>Travel to (MM:DD-01:YYYY).</p>
+          <button class="small-btn forum-action" type="button">Open Thread</button>
+        </article>
+        <article class="terminal-card">
+          <h2>Globally Trending</h2>
+          <p>Based on your location [EARTH].</p>
+          <button class="small-btn forum-action" type="button">Track Signal</button>
         </article>
       </div>
+      <form id="FORM-FORUM" class="terminal-card textlog-form">
+        <h2>Simulated Posting Panel</h2>
+        <textarea id="INPUT-FORUM" placeholder="Markdown reply. Backend hook later."></textarea>
+        <button class="small-btn" type="submit">Post Local Signal</button>
+      </form>
+    </section>
 
-      <div class="locked-node-map" aria-label="Sub-page archive map">
-        <h3>Restricted Sub-Page Map</h3>
-        <div class="node-grid">
-          <button class="node unauthorized-btn" type="button">Additional Lore</button>
-          <button class="node unauthorized-btn" type="button">Backroom Access Lore</button>
-          <button class="node unauthorized-btn" type="button">CONFIDENTIAL</button>
-          <button class="node unauthorized-btn" type="button">Page 24</button>
-          <button class="node unauthorized-btn" type="button">Additional Art</button>
-          <button class="node unauthorized-btn" type="button">Backroom Access Art</button>
-          <button class="node unauthorized-btn" type="button">Free Chat Forums</button>
-          <button class="node unauthorized-btn" type="button">SOLMNEX GUILD</button>
-          <button class="node unauthorized-btn" type="button">QUESTS</button>
-          <button class="node unauthorized-btn" type="button">Login Access Only (FREE ZIP)</button>
-          <button class="node unauthorized-btn" type="button">Research</button>
-          <button class="node unauthorized-btn" type="button">SPECULATIVE (Users)</button>
-          <button class="node unauthorized-btn" type="button">Heightened Security Research</button>
-          <button class="node unauthorized-btn" type="button">CONFIDENTIAL RESEARCH</button>
-          <button class="node unauthorized-btn" type="button">Heightened Security</button>
-          <button class="node unauthorized-btn" type="button">LADECA GUILD</button>
-          <button class="node unauthorized-btn" type="button">SAVE SOLMNEX SIMULATION</button>
-          <button class="node unauthorized-btn" type="button">Heightened Access News</button>
-          <button class="node unauthorized-btn" type="button">CONFIDENTIAL NEWS</button>
+    <!-- P3 // NEWS (disguise news page) -->
+    <section id="P3" class="page" data-page="NEWS" aria-labelledby="P3-H1">
+      <div class="page-title terminal-card">
+        <p class="page-code">P3 // NEWS // PUBLIC</p>
+        <h1 id="P3-H1">Recent CTC News</h1>
+        <p class="lede">Impossible headlines presented like ordinary civic reporting.</p>
+      </div>
+      <div class="terminal-grid three article-grid">
+        <button class="article-card" type="button" data-article="A1">
+          <span>2024</span>
+          First Earth inhabitant visits Dine's Digital Corridor.
+        </button>
+        <button class="article-card" type="button" data-article="A2">
+          <span>July 24, 2028</span>
+          Golden statue turns into Mercury overnight.
+        </button>
+        <button class="article-card" type="button" data-article="A3">
+          <span>2033</span>
+          What will Dine look like in 2040?
+        </button>
+      </div>
+    </section>
+
+    <!-- P4 // ART -->
+    <section id="P4" class="page" data-page="ART" aria-labelledby="P4-H1">
+      <div class="page-title terminal-card">
+        <p class="page-code">P4 // ART // PUBLIC</p>
+        <h1 id="P4-H1">Art Evidence</h1>
+        <p class="lede">Illustrations, standing pieces, chronicles, and coordinate-disguised media.</p>
+      </div>
+      <div class="terminal-grid four">
+        <article class="evidence-card terminal-card"><h2>Illustrations</h2><p>Creators mark impossible shadows.</p></article>
+        <article class="evidence-card terminal-card"><h2>Standing Pieces</h2><p>Objects that should not remain stationary.</p></article>
+        <article class="evidence-card terminal-card"><h2>Chronicles</h2><p>Panel sequences from recovered branches.</p></article>
+        <button class="evidence-card terminal-card locked-route" type="button" data-open="research"><h2>Submit Art</h2><p>LOGIN REQUIRED.</p></button>
+      </div>
+    </section>
+
+    <!-- P5 // HELP -->
+    <section id="P5" class="page" data-page="HELP" aria-labelledby="P5-H1">
+      <div class="page-title terminal-card">
+        <p class="page-code">P5 // HELP // PUBLIC</p>
+        <h1 id="P5-H1">Help Protocol</h1>
+        <p class="lede">The page pretends to help. The Moon knows you are misplaced.</p>
+      </div>
+      <div class="terminal-grid two">
+        <article class="terminal-card accordion">
+          <button class="accordion-toggle" type="button">Why are pages unauthorized?</button>
+          <div class="accordion-body">Because you are Guest. Sentinel lock-in activates HUB only.</div>
+          <button class="accordion-toggle" type="button">Can I post research?</button>
+          <div class="accordion-body">Local markdown textlogs are available after HUB in this static build.</div>
+          <button class="accordion-toggle" type="button">What is SOLMNEX?</button>
+          <div class="accordion-body">A protected system intelligence layer. Disclosure requires clearance.</div>
+        </article>
+        <article class="terminal-card">
+          <h2>Lost Visitor Protocol</h2>
+          <p>I can't pinpoint your Time Period, Lattice Location, or Sentinel Code.</p>
+          <button id="BTN-CALL-MOON" class="small-btn" type="button">Call Moon Helper</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- P6 // SENTINEL LOCK-IN -->
+    <section id="P6" class="page" data-page="SENTINEL" aria-labelledby="P6-H1">
+      <div class="page-title terminal-card">
+        <p class="page-code">P6 // SENTINEL // PUBLIC ENTRY</p>
+        <h1 id="P6-H1">Sentinel Lock-In</h1>
+        <p class="lede">Front-end simulation only. Unlocks HUB and the classified workspace locally.</p>
+      </div>
+      <form id="FORM-SENTINEL" class="terminal-card lockin-panel">
+        <label for="INPUT-CODE">Sentinel Code</label>
+        <input id="INPUT-CODE" type="text" placeholder="Enter any code to lock in..." autocomplete="off" />
+        <button id="BTN-COMPLETE-LOCKIN" class="large-btn" type="submit">Complete Lock-In</button>
+        <pre>// BACKEND_HOOK_AUTH: integrate real auth here
+// BACKEND_HOOK_PROGRESS: sync user progress here</pre>
+      </form>
+    </section>
+
+    <!-- P7 // HUB DESKTOP — AGENT WORKSPACE (windowed) -->
+    <section id="P7" class="page hub-desktop" data-page="HUB" aria-labelledby="P7-H1">
+      <div class="desktop-bg-grid" aria-hidden="true"></div>
+
+      <section class="welcome-card" aria-label="Hub introduction">
+        <p class="page-code">P7 // HUB // UL-1-HUB</p>
+        <h1 id="P7-H1">HUB Active</h1>
+        <p>Classified workspace. Open any module from the side index or top nav. Drag windows to arrange.</p>
+        <div class="chip-row">
+          <div class="chip">Draggable</div>
+          <div class="chip">Modular</div>
+          <div class="chip">Local State</div>
         </div>
+      </section>
+
+      <!-- Window layer — windows are spawned by the registry in script.js -->
+      <div id="WINDOW-LAYER" class="window-layer"></div>
+
+      <div class="status-bar" aria-label="Desktop status">
+        <span><strong>Mode:</strong> <span id="STATUS-MODE">Locked-In Agent</span></span>
+        <span><strong>Role:</strong> <span id="ROLE-CURRENT">Guest</span></span>
+        <span><strong>Signal:</strong> <span id="STATUS-SIGNAL">0</span></span>
       </div>
     </section>
 
-    <section class="state-page hidden" id="uplinkTerminatedPage" aria-live="polite">
-      <p class="eyebrow">UPLINK_TERMINATED_page</p>
-      <h2>UPLINK TERMINATED</h2>
-      <p>STILLPOINT rejected. Branch access closed by LADECA Systems.</p>
-      <button class="ghost-action" id="returnHomeFailed" type="button">RETURN TO LADECA_HOME</button>
-    </section>
-
-    <section class="state-page hidden success" id="loggedInPage" aria-live="polite">
-      <p class="eyebrow">LOGGED_IN_PAGE</p>
-      <h2>STILLPOINT ACCEPTED</h2>
-      <p>Welcome back, Sentinel. LADECA branch coordinates verified.</p>
-      <div class="success-grid">
-        <span>OU ID: LPHISIX</span>
-        <span>STILLPOINT: LADECA</span>
-        <span>ACCESS: PROTOTYPE SESSION</span>
-      </div>
-      <button class="ghost-action" id="returnHomeSuccess" type="button">RETURN TO ARCHIVE</button>
-    </section>
   </main>
 
-  <footer class="footer-ticker" aria-label="LADECA message ticker">
-    <div class="footer-ticker-inner">
-      <span id="footerTickerText">LADECA: HOME NODE INITIALIZING . . .</span>
+  <!-- ============================================================
+       MOON HUD — appears mid-timeline
+       ============================================================ -->
+  <aside id="HUD-MOON" class="moon-hud hidden" aria-label="Moon helper">
+    <button id="BTN-MOON" class="moon-eye" type="button" aria-label="Open Moon helper">
+      <span class="moon-eye__iris" aria-hidden="true"></span>
+    </button>
+    <div id="MOON-CHAT" class="moon-chat">
+      <h2>Are you lost?</h2>
+      <p>I can't pinpoint your Time Period, Lattice Location or Sentinel Code.</p>
+      <button class="small-btn" type="button" data-route="P6">LOCK-IN</button>
+      <button id="BTN-MOON-LOST" class="small-btn" type="button">HERE</button>
     </div>
+  </aside>
+
+  <!-- ============================================================
+       ARTICLE MODAL — used on disguise NEWS page
+       ============================================================ -->
+  <div id="MODAL-ARTICLE" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="ARTICLE-TITLE">
+    <article class="modal-card">
+      <button id="BTN-ARTICLE-CLOSE" class="modal-close" type="button" aria-label="Close article">×</button>
+      <p id="ARTICLE-DATE" class="page-code"></p>
+      <h2 id="ARTICLE-TITLE"></h2>
+      <p id="ARTICLE-BODY"></p>
+    </article>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer id="APP-FOOTER" class="app-footer">
+    <span id="TIMELINE-STATUS">TL-P1-1 // HOME</span>
+    <span id="ROUTE-STATUS">ROUTE: P1</span>
   </footer>
 
   <script src="script.js" defer></script>
-</body>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="transform:translate(-${scrollX}px,-${scrollY}px);transform-origin:top left">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+
+</script></body>
 </html>
